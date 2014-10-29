@@ -1,0 +1,12 @@
+{
+  "name": "node-api",
+  "main": "server.js",
+  "dependencies": {
+    "express": "latest",
+    "mongoose": "latest",
+    "body-parser": "latest",
+    "proxy-middleware": "latest",
+    "websocket": "latest",
+    "underscore": "latest"
+  }
+}
