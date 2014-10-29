@@ -10,9 +10,11 @@ var WebSocketClient = require('websocket').client;
 var mongoose = require('mongoose');
 var Log = require('./app/models/log.js');
 var SemanticLogging = require('./app/libs/semanticlogging.js');
+var PlainText = require('./app/libs/sinks/plaintext.js');
 
 var app = express();
 var logger = new SemanticLogging();
+var loggerText = new PlainText('/var/log/canalplay/orange/error.log');
 var port = process.env.PORT || 5000;
 var router = express.Router();
 var canalRouter = express.Router();
@@ -88,6 +90,9 @@ canalRouter.route('/canal/logs').post(function(req, res) {
 			message: 'Log created!'
 		});
 	});
+  loggerText.logInformation('', req.body, function(err){
+    if(err) res.send(err);
+  });
 }).get(function(req, res) {
 	Log.find(function(err, logs) {
 		if (err) res.send(err);
@@ -105,11 +110,18 @@ canalRouter.route('/canal/logs').post(function(req, res) {
 	});
 });
 
+app.use(function(req, res, next){
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE');
+  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With, content-type');
+  res.setHeader('Access-Control-Allow-Credentials', true); 
+  next();
+});
+
 app.use('/api', proxy(url.parse('http://canalplay-r7.hubee.tv/')));
 app.use('/logapi', router);
 app.use('/logapi', canalRouter);
 
-mongoose.connect('mongodb://hubee:hubee@proximus.modulusmongo.net:27017/wam6oQuq');
+mongoose.connect('mongodb://localhost:27017/canalplay');
 
 console.log('Port ' + port + ' is listened');
-
