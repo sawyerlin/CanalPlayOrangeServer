@@ -59,9 +59,9 @@ client.on('connect', function(con) {
 	clientConnection = con;
 }).on('connectFailed', function(description) {
 	console.log(description);
-}).on('httpResponse', function(response, webSocketClient){
-  console.log(response);
-  console.log(webSocketClient);
+}).on('httpResponse', function(response, webSocketClient) {
+	console.log(response);
+	console.log(webSocketClient);
 });
 
 // Create Express App
@@ -83,6 +83,7 @@ canalRouter.get('/canal', function(req, res) {
 });
 
 canalRouter.route('/canal/logs').post(function(req, res) {
+  console.log(req.body);
 	logger.logInformation('', req.body, function(err) {
 		if (err) res.send(err);
 
@@ -90,9 +91,9 @@ canalRouter.route('/canal/logs').post(function(req, res) {
 			message: 'Log created!'
 		});
 	});
-  loggerText.logInformation('', req.body, function(err){
-    if(err) res.send(err);
-  });
+	loggerText.logInformation('', req.body, function(err) {
+		if (err) res.send(err);
+	});
 }).get(function(req, res) {
 	Log.find(function(err, logs) {
 		if (err) res.send(err);
@@ -110,12 +111,12 @@ canalRouter.route('/canal/logs').post(function(req, res) {
 	});
 });
 
-app.use(function(req, res, next){
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE');
-  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With, content-type');
-  res.setHeader('Access-Control-Allow-Credentials', true); 
-  next();
+app.use(function(req, res, next) {
+	res.setHeader('Access-Control-Allow-Origin', '*');
+	res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE');
+	res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With, content-type');
+	res.setHeader('Access-Control-Allow-Credentials', true);
+	next();
 });
 
 app.use('/api', proxy(url.parse('http://canalplay-r7.hubee.tv/')));
@@ -125,3 +126,4 @@ app.use('/logapi', canalRouter);
 mongoose.connect('mongodb://localhost:27017/canalplay');
 
 console.log('Port ' + port + ' is listened');
+
