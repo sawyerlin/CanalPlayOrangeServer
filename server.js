@@ -1,6 +1,7 @@
-var fs = require('fs');
-var url = require('url');
 var http = require('http');
+var url = require('url');
+var path = require('path');
+var fs = require('fs');
 var bodyParser = require('body-parser');
 var _ = require('underscore');
 var express = require('express');
@@ -18,6 +19,9 @@ var loggerText = new PlainText('/var/log/canalplay/orange/error.log');
 var port = process.env.PORT || 5000;
 var router = express.Router();
 var canalRouter = express.Router();
+
+var api = '/api',
+    logapi = '/logapi';
 
 // Create Server
 var server = http.createServer(app).listen(port);
@@ -112,16 +116,17 @@ canalRouter.route('/canal/logs').post(function(req, res) {
 });
 
 app.use(function(req, res, next) {
-	//res.setHeader('Access-Control-Allow-Origin', '*');
+	res.setHeader('Access-Control-Allow-Origin', '*');
 	res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE');
 	res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With, content-type');
 	res.setHeader('Access-Control-Allow-Credentials', true);
 	next();
 });
 
-app.use('/api', proxy(url.parse('http://canalplay-r7.hubee.tv/')));
-app.use('/logapi', router);
-app.use('/logapi', canalRouter);
+app.use(api , proxy(url.parse('http://canalplay-r7.hubee.tv/')));
+app.use(express.static(path.join(__dirname, 'datas')));
+app.use(logapi, router);
+app.use(logapi, canalRouter);
 
 mongoose.connect('mongodb://localhost:27017/canalplay');
 
