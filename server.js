@@ -5,7 +5,7 @@ var express = require('express');
 var WebSocketClient = require('websocket').client;
 var Log = require('./app/models/log.js');
 var SemanticLogging = require('./app/libs/semanticlogging.js');
-var PlainText = require('./app/libs/sinks/plaintext.js');
+var PlainText = require('./app/libs/sinks/plaintextSink.js');
 var restServer = require('./app/servers/restServer.js');
 var websocketServer = require('./app/servers/websocketServer.js');
 

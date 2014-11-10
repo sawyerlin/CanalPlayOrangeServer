@@ -1,6 +1,6 @@
 var fs = require('fs');
 
-module.exports = function(path) {
+module.exports = function (path) {
 
 	var file;
 	var space = ' ';

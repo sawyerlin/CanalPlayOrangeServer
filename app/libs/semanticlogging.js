@@ -1,13 +1,15 @@
-var Log = require("../models/log.js")
+var Log = require("../models/log.js");
+
 module.exports = function() {
 
 	function createLog() {
 		var log = new Log();
 		log.Timestamp = new Date();
-		return log
+		return log;
 	}
 
 	return {
+    sinks: [],
 		logInformation: function(message, payload, callback) {
       var eventId = 1;
       var level = "information";

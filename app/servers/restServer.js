@@ -15,6 +15,7 @@ module.exports = function(app) {
 	app.use(bodyParser.urlencoded({
 		extended: true
 	}));
+
 	app.use(bodyParser.json());
 
 	router.get('/', function(req, res) {
@@ -30,7 +31,6 @@ module.exports = function(app) {
 	});
 
 	canalRouter.route('/canal/logs').post(function(req, res) {
-		console.log(req.body);
 		logger.logInformation('', req.body, function(err) {
 			if (err) res.send(err);
 
@@ -59,10 +59,11 @@ module.exports = function(app) {
 	});
 
 	app.use(function(req, res, next) {
-		if (req.headers.origin != 'http://localhost') res.setHeader('Access-Control-Allow-Orign', '*');
-		res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE');
-		res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With, content-type');
-		res.setHeader('Access-Control-Allow-Credentials', true);
+    req.headers.host = 'canalplay-r7.hubee.tv';
+		//if (req.headers.origin != 'http://localhost') res.setHeader('Access-Control-Allow-Orign', '*');
+    res.setHeader('Access-Control-Allow-Orign', '*');
+		res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS');
+		res.setHeader('Access-Control-Allow-Headers', 'origin, content-type, accept, X-CPGRP-STB, X-Cpgrp-stb');
 		next();
 	});
 
