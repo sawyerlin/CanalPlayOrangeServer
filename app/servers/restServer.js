@@ -3,6 +3,7 @@ var path = require('path');
 var bodyParser = require('body-parser');
 var express = require('express');
 var proxy = require('proxy-middleware');
+var mongoose = require('mongoose');
 
 module.exports = function(app) {
 	var router = express.Router();
@@ -69,4 +70,6 @@ module.exports = function(app) {
 	app.use(express.static(path.join(__dirname, 'datas')));
 	app.use(logapi, router);
 	app.use(logapi, canalRouter);
+
+  mongoose.connect('mongodb://localhost:27017/canalplay');
 };
