@@ -15,7 +15,9 @@ var loggerText = new PlainText('/var/log/canalplay/orange/error.log');
 var port = process.env.PORT || 5000;
 
 // Create http Server
-var server = http.createServer(app).listen(port);
+var server = http.createServer(app).listen(port, function() {
+    fs.writeFile(__dirname + '/start.log', 'started');
+});
 
 // Create web socket Server
 websocketServer(server);
@@ -25,12 +27,12 @@ var clientConnection;
 var client = new WebSocketClient();
 client.connect('ws://localhost' + ':' + port, null);
 client.on('connect', function(con) {
-	clientConnection = con;
+    clientConnection = con;
 }).on('connectFailed', function(description) {
-	console.log(description);
+    console.log(description);
 }).on('httpResponse', function(response, webSocketClient) {
-	console.log(response);
-	console.log(webSocketClient);
+    console.log(response);
+    console.log(webSocketClient);
 });
 
 // Create Rest Router
