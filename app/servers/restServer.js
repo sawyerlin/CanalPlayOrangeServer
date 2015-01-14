@@ -23,7 +23,7 @@ module.exports = function(app) {
 
     canalRouter.get('/canal', function(req, res) {
         res.json({
-            message: 'Logging Canal xcc1'
+            message: 'Logging Canal long test'
         });
     });
 

@@ -1,5 +1,6 @@
 {
-  "name": "node-api",
+  "name": "slogging",
+  "version": "0.0.1",
   "main": "server.js",
   "dependencies": {
     "express": "latest",
@@ -8,5 +9,13 @@
     "proxy-middleware": "latest",
     "websocket": "latest",
     "underscore": "latest"
+  },
+  "devDependencies": {
+    "grunt": "latest",
+    "grunt-contrib-jshint": "latest",
+    "grunt-contrib-nodeunit": "latest",
+    "grunt-contrib-uglify": "latest",
+    "grunt-exec": "~0.4.6",
+    "grunt-parallel": "~0.3.1"
   }
 }
